@@ -24,40 +24,14 @@ module Natto
         File.absolute_path(ENV[MECAB_PATH])
       else
         host_os = RbConfig::CONFIG['host_os']
-
         if host_os =~ /mswin|mingw/i
-          require 'win32/registry'
-          begin
-            base = nil
-            Win32::Registry::HKEY_CURRENT_USER.open('Software\MeCab') do |r|
-              base = r['mecabrc'].split('etc').first
-            end
-            lib = File.join(base, 'bin/libmecab.dll')
-            File.absolute_path(lib)
-          rescue
-            raise LoadError, "Please set #{MECAB_PATH} to the full path to libmecab.dll"
-          end
+          ext = 'dll'
+        elsif host_os =~ /darwin/i
+          ext = 'dylib'
         else
-          require 'open3'
-          if host_os =~ /darwin/i
-            ext = 'dylib'
-          else
-            ext = 'so'
-          end
-
-          begin
-            base, lib = nil, nil
-            cmd = 'mecab-config --libs'
-            Open3.popen3(cmd) do |stdin,stdout,stderr|
-              toks = stdout.read.split
-              base = toks[0][2..-1]
-              lib  = toks[1][2..-1]
-            end
-            File.absolute_path(File.join(base, "lib#{lib}.#{ext}"))
-          rescue
-            raise LoadError, "Please set #{MECAB_PATH} to the full path to libmecab.#{ext}"
-          end
+          ext = 'so'
         end
+        raise LoadError, "Please set #{MECAB_PATH} to the full path to libmecab.#{ext}"
       end
     end
 
