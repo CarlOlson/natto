@@ -5,8 +5,8 @@ require 'natto/version'
 Gem::Specification.new do |s|
   s.name = 'natto'
   s.version = Natto::VERSION
-  s.add_dependency('ffi', '>= 1.9.0')
-  s.license = 'BSD'
+  s.add_dependency('ffi', '~> 1.9')
+  s.license = 'BSD-2-Clause'
   s.summary = 'A gem leveraging FFI (foreign function interface), natto combines the Ruby programming language with MeCab, the part-of-speech and morphological analyzer for the Japanese language.'
   s.description = <<END_DESC
 natto provides a naturally Ruby-esque interface to MeCab. It runs on both CRuby (mri/yarv) and JRuby (jvm). It works with MeCab installations on Windows, Unix/Linux, and OS X. No compiler is necessary, as natto is not a C extension.
@@ -31,8 +31,8 @@ END_DESC
     'CHANGELOG',
     '.yardopts'
   ]
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'rake', '~> 12'
+  s.add_development_dependency 'minitest', '~> 5'
 end
 
 # Copyright (c) 2015, Brooke M. Fujita.
