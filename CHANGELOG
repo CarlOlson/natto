@@ -1,4 +1,9 @@
 ## CHANGELOG
+- __2016/06/18__: 1.2.0 unoffical release
+    - Force using MECAB_PATH environment variable
+    - Remove lattice level setting
+    - Remove test code for user dictionaries
+
 - __2016/06/18__: 1.1.1 release
     - Issue 68: Speed up for accessing field of Struct.
     - Updating LICENSE and copyright for year 2016. 

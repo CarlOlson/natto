@@ -26,7 +26,7 @@
 # `Natto`.
 module Natto
   # Version string for this Rubygem.
-  VERSION = "1.1.1"
+  VERSION = "1.2.0"
 end
 
 # Copyright (c) 2016, Brooke M. Fujita.
