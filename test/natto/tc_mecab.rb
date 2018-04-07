@@ -114,15 +114,6 @@ class TestMeCab < Minitest::Test
       assert_equal({userdic: '/yet/another/file'}, Natto::MeCab.parse_mecab_options(opts))
     end
    
-    [ '-l 42',
-      '-l42',
-      '--lattice-level=42',
-      '--lattice-level 42',
-      {lattice_level: 42}
-    ].each do |opts|
-      assert_equal({lattice_level: 42}, Natto::MeCab.parse_mecab_options(opts))
-    end
-   
     [ '-a',
       '--all-morphs',
       {all_morphs: true} ].each do |opts|
@@ -260,7 +251,6 @@ class TestMeCab < Minitest::Test
     assert_equal('--rcfile=/some/file', Natto::MeCab.build_options_str(rcfile: "/some/file"))
     assert_equal('--dicdir=/some/other/file', Natto::MeCab.build_options_str(dicdir: "/some/other/file"))
     assert_equal('--userdic=/yet/another/file', Natto::MeCab.build_options_str(userdic: "/yet/another/file"))
-    assert_equal('--lattice-level=42', Natto::MeCab.build_options_str(lattice_level: 42))
     assert_equal('--all-morphs', Natto::MeCab.build_options_str(all_morphs: true))
     assert_equal('--output-format-type=natto', Natto::MeCab.build_options_str(output_format_type: "natto"))
     assert_equal('--node-format=%m\t%f[7]\n', Natto::MeCab.build_options_str(node_format: '%m\t%f[7]\n'))
@@ -274,15 +264,6 @@ class TestMeCab < Minitest::Test
     assert_equal('--nbest=42', Natto::MeCab.build_options_str(nbest: 42))
     assert_equal('--theta=0.42', Natto::MeCab.build_options_str(theta: 0.42))
     assert_equal('--cost-factor=42', Natto::MeCab.build_options_str(cost_factor: 42))
-  end
-
-  def test_lattice_level_warning
-    [{lattice_level: 999}, '-l 999', '--lattice-level=999' ].each do |opt|
-      out, err = capture_io do
-        Natto::MeCab.new opt
-      end
-      assert_equal ":lattice-level is DEPRECATED, please use :marginal or :nbest\n", err
-    end
   end
 
   def test_initialize_with_errors

@@ -172,10 +172,9 @@ module Natto
     # - :rcfile --  resource file
     # - :dicdir --  system dicdir
     # - :userdic --  user dictionary
-    # - :lattice_level --  lattice information level (DEPRECATED)
     # - :output_format_type --  output format type (wakati, chasen, yomi, etc.)
     # - :all_morphs --  output all morphs (default false)
-    # - :nbest --  output N best results (integer, default 1), requires lattice level >= 1
+    # - :nbest --  output N best results (integer, default 1)
     # - :partial --  partial parsing mode 
     # - :marginal --  output marginal probability
     # - :max_grouping_size --  maximum grouping size for unknown words (default 24)

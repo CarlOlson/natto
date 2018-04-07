@@ -42,15 +42,6 @@ class TestOptionParse < Minitest::Test
       assert_equal({userdic: '/yet/another/file'}, @klass.parse_mecab_options(opts))
     end
    
-    [ '-l 42',
-      '-l42',
-      '--lattice-level=42',
-      '--lattice-level 42',
-      {lattice_level: 42}
-    ].each do |opts|
-      assert_equal({lattice_level: 42}, @klass.parse_mecab_options(opts))
-    end
-   
     [ '-a',
       '--all-morphs',
       {all_morphs: true} ].each do |opts|
@@ -186,7 +177,6 @@ class TestOptionParse < Minitest::Test
     assert_equal('--rcfile=/some/file', @klass.build_options_str(rcfile: "/some/file"))
     assert_equal('--dicdir=/some/other/file', @klass.build_options_str(dicdir: "/some/other/file"))
     assert_equal('--userdic=/yet/another/file', @klass.build_options_str(userdic: "/yet/another/file"))
-    assert_equal('--lattice-level=42', @klass.build_options_str(lattice_level: 42))
     assert_equal('--output-format-type=natto', @klass.build_options_str(output_format_type: "natto"))
     assert_equal('--all-morphs', @klass.build_options_str(all_morphs: true))
     assert_equal('--nbest=42', @klass.build_options_str(nbest: 42))

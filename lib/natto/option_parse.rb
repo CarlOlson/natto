@@ -7,15 +7,11 @@ module Natto
   module OptionParse
     require 'optparse'
 
-    WARNING_LATTICE_LEVEL = 
-        ":lattice-level is DEPRECATED, please use :marginal or :nbest\n".freeze
-
     # Mapping of MeCab short-style configuration options to the MeCab
     # Tagger. See the MeCab help for more details. 
     SUPPORTED_OPTS = { '-r' => :rcfile, 
                        '-d' => :dicdir, 
                        '-u' => :userdic, 
-                       '-l' => :lattice_level, 
                        '-O' => :output_format_type, 
                        '-a' => :all_morphs,
                        '-N' => :nbest, 
@@ -52,7 +48,6 @@ module Natto
             opts.on('-r', '--rcfile ARG')           { |arg| h[:rcfile] = arg.strip }
             opts.on('-d', '--dicdir ARG')           { |arg| h[:dicdir] = arg.strip }
             opts.on('-u', '--userdic ARG')          { |arg| h[:userdic] = arg.strip }
-            opts.on('-l', '--lattice-level ARG')    { |arg| h[:lattice_level] = arg.strip.to_i } # !deprecated in 0.99!!!
             opts.on('-O', '--output-format-type ARG') { |arg| h[:output_format_type] = arg.strip }
             opts.on('-a', '--all-morphs')           { |arg| h[:all_morphs] = true }
             opts.on('-N', '--nbest ARG')            { |arg| h[:nbest] = arg.strip.to_i }
@@ -78,7 +73,7 @@ module Natto
                 h[k] = true
               else
                 v = options[k]  
-                if [ :lattice_level, :nbest, :max_grouping_size, :input_buffer_size, :cost_factor ].include?(k)
+                if [ :nbest, :max_grouping_size, :input_buffer_size, :cost_factor ].include?(k)
                   h[k] = v.to_i 
                 elsif k == :theta
                   h[k] = v.to_f
@@ -89,7 +84,6 @@ module Natto
             end
           end
         end
-        $stderr.print WARNING_LATTICE_LEVEL if h.include? :lattice_level
         raise MeCabError.new("Invalid N value") if h[:nbest] && (h[:nbest] < 1 || h[:nbest] > 512)
         h
       end
