@@ -5,7 +5,6 @@ require 'natto'
 
 [ 
   '/test/natto/tc_binding.rb',
-  '/test/natto/tc_dictionaryinfo.rb',
   '/test/natto/tc_mecab.rb',
   '/test/natto/tc_mecabnode.rb',
   '/test/natto/tc_option_parse.rb'
