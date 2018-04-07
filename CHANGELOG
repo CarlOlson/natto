@@ -6,10 +6,10 @@
 
 - __2016/06/18__: 1.1.1 release
     - Issue 68: Speed up for accessing field of Struct.
-    - Updating LICENSE and copyright for year 2016. 
+    - Updating LICENSE and copyright for year 2016.
 
 - __2015/12/24__: 1.1.0 release
-    - Issue 64: undefined method 'mecab_model_destory' for Natto::MeCab:Class 
+    - Issue 64: undefined method 'mecab_model_destory' for Natto::MeCab:Class
     - Updated Travis rubies
 
 - __2015/07/20__: 1.0.1 release.
@@ -37,7 +37,7 @@
     - Migrated natto code home from Bitbucket to GitHub.
     - Improved documentation following said migration.
     - Minor refactoring to Natto::MeCabNode#to_s.
-    - Updating LICENSE for year 2015. 
+    - Updating LICENSE for year 2015.
 
 - __2014/12/20__: 0.9.7 release.
     - Issue 14: adding automatic discovery for mecab library; no need to explicitly set MECAB_PATH
@@ -49,8 +49,8 @@
     - Enhancements to to_s methods for both MeCab and DictionaryInfo
     - Enhancements to TestDictionaryInfo to allow for building user dic during setup on Windows as well
     - Slight enhancement to benchmark task.
-    - Updating LICENSE (adding copyright year 2015), adding to all files 
-	
+    - Updating LICENSE (adding copyright year 2015), adding to all files
+
 - __2013/07/07__: 0.9.6 release.
     - Upgrade to mecab 0.996
     - Adding support for partial parsing mode (-p / --partial)
@@ -60,7 +60,7 @@
     - Requiring ffi 1.9.0 or greater
     - Dropping support for Ruby 1.8.7
     - Migrating to minitest
-    - Removing automatic library load for Cygwin platform (does not compile) 
+    - Removing automatic library load for Cygwin platform (does not compile)
 
 - __2012/09/16__: 0.9.5 release.
     - Fixed Issue 9: trimされていない文字列のparse
@@ -75,8 +75,8 @@
     - Exposing the underlying FFI pointer as @tagger in Natto::MeCab
     - Exposing the underlying FFI pointer as @pointer in Natto::MeCabNode
     - Fixed node formatting behavior for both regular and N-Best node parsing
-    - Adding is_nor?, is_unk?, is_bos?, is_eos?, is_eon? to Natto::MeCabNode 
-    - Adding is_sysdic?, is_usrdic?, is_unkdic? to Natto::DictionaryInfo 
+    - Adding is_nor?, is_unk?, is_bos?, is_eos?, is_eon? to Natto::MeCabNode
+    - Adding is_sysdic?, is_usrdic?, is_unkdic? to Natto::DictionaryInfo
     - Adding readnodes to allow for method-chaining on list of parsed nodes
     - Adding readlines to allow for method-chaining on list of string output
     - Updating README to include description of DevKit install for RubyInstaller
@@ -109,11 +109,11 @@
     - Pulling support for mecab option partial, since it is more of a command-line feature
 
 - __2011/01/27__: 0.4.1 release.
-    - Tweaking the description in natto.gemspec a bit 
+    - Tweaking the description in natto.gemspec a bit
 
 - __2011/01/26__: 0.4.0 release.
-    - Added support for mecab option input-buffer-size 
-    - Adding CHANGELOG file 
+    - Added support for mecab option input-buffer-size
+    - Adding CHANGELOG file
     - Continuing update of documentation
 
 - __2011/01/22__: 0.3.0 release.
@@ -124,7 +124,7 @@
     - Continuing update of documentation
 
 - __2011/01/19__: 0.2.0 release.
-    - Added support for mecab option allocate-sentence 
+    - Added support for mecab option allocate-sentence
     - Continuing update of documentation
 
 - __2011/01/15__: 0.1.1 release.
@@ -141,7 +141,7 @@
     - Continuing update of documentation
 
 - __2011/01/07__: 0.0.8 release.
-    - Adding support for accessing dictionaries 
+    - Adding support for accessing dictionaries
     - Further tweaking of documentation with markdown
 
 - __2010/12/30__: 0.0.7 release.
@@ -164,8 +164,8 @@
 
 - __2010/12/20__: 0.0.2 release.
     - Continuing development on proper resource deallocation
-    - Adding options hash in object initializer 
+    - Adding options hash in object initializer
 
-- __2010/12/13__: Released version 0.0.1. 
-    - Initial release 
+- __2010/12/13__: Released version 0.0.1.
+    - Initial release
     - The objective is to provide an easy-to-use, production-level Ruby binding to MeCab

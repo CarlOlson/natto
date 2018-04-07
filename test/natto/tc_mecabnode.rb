@@ -15,7 +15,7 @@ class TestMeCabNode < Minitest::Test
     nm = Natto::MeCab.new
     @nodes = []
     nm.parse(`#{@test_cmd}`) { |n| @nodes << n }
-    
+
     nm = Natto::MeCab.new('-N2 -Oyomi')
     @nb_nodes = []
     nm.parse(`#{@test_cmd}`) { |n| @nb_nodes << n }
@@ -43,7 +43,7 @@ class TestMeCabNode < Minitest::Test
     @nodes.each do |n|
       actual[n.surface]=n.feature if n.surface and (n.is_nor? || n.is_unk?)
     end
-    
+
     assert_equal(expected, actual)
   end
 
@@ -72,11 +72,11 @@ class TestMeCabNode < Minitest::Test
       :beta,
       :prob,
       :wcost,
-      :cost 
+      :cost
     ].each do |nomme|
       refute_nil(node.send nomme)
     end
-    
+
     assert_raises NoMethodError do
       node.send :unknown_attr
     end
@@ -99,19 +99,19 @@ end
 
 # Copyright (c) 2016, Brooke M. Fujita.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 #  * Redistributions of source code must retain the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer.
-# 
+#
 #  * Redistributions in binary form must reproduce the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer in the documentation and/or other
 #    materials provided with the distribution.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE

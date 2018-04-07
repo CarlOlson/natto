@@ -1,34 +1,34 @@
 # coding: utf-8
 module Natto
 
-  # Module `OptionParse` encapsulates methods and behavior 
+  # Module `OptionParse` encapsulates methods and behavior
   # for parsing the various MeCab options supported by
   # `Natto`.
   module OptionParse
     require 'optparse'
 
     # Mapping of MeCab short-style configuration options to the MeCab
-    # Tagger. See the MeCab help for more details. 
-    SUPPORTED_OPTS = { '-r' => :rcfile, 
-                       '-d' => :dicdir, 
-                       '-u' => :userdic, 
-                       '-O' => :output_format_type, 
+    # Tagger. See the MeCab help for more details.
+    SUPPORTED_OPTS = { '-r' => :rcfile,
+                       '-d' => :dicdir,
+                       '-u' => :userdic,
+                       '-O' => :output_format_type,
                        '-a' => :all_morphs,
-                       '-N' => :nbest, 
-                       '-p' => :partial, 
-                       '-m' => :marginal, 
-                       '-M' => :max_grouping_size, 
-                       '-F' => :node_format, 
+                       '-N' => :nbest,
+                       '-p' => :partial,
+                       '-m' => :marginal,
+                       '-M' => :max_grouping_size,
+                       '-F' => :node_format,
                        '-U' => :unk_format,
-                       '-B' => :bos_format, 
-                       '-E' => :eos_format, 
-                       '-S' => :eon_format, 
-                       '-x' => :unk_feature, 
-                       '-b' => :input_buffer_size, 
-                       '-C' => :allocate_sentence, 
-                       '-t' => :theta, 
+                       '-B' => :bos_format,
+                       '-E' => :eos_format,
+                       '-S' => :eon_format,
+                       '-x' => :unk_feature,
+                       '-b' => :input_buffer_size,
+                       '-C' => :allocate_sentence,
+                       '-t' => :theta,
                        '-c' => :cost_factor }.freeze
-    
+
     # @private
     def self.included(base)
       base.extend(ClassMethods)
@@ -36,11 +36,11 @@ module Natto
 
     # @private
     module ClassMethods
-    
+
       # Prepares and returns a hash mapping symbols for
       # the specified, recognized MeCab options, and their
       # values. Will parse and convert string (short or
-      # long argument styles) or hash. 
+      # long argument styles) or hash.
       def parse_mecab_options(options={})
         h = {}
         if options.is_a? String
@@ -69,15 +69,15 @@ module Natto
         else
           SUPPORTED_OPTS.values.each do |k|
             if options.has_key?(k)
-              if [ :all_morphs, :partial, :marginal, :allocate_sentence ].include?(k) 
+              if [ :all_morphs, :partial, :marginal, :allocate_sentence ].include?(k)
                 h[k] = true
               else
-                v = options[k]  
+                v = options[k]
                 if [ :nbest, :max_grouping_size, :input_buffer_size, :cost_factor ].include?(k)
-                  h[k] = v.to_i 
+                  h[k] = v.to_i
                 elsif k == :theta
                   h[k] = v.to_f
-                else 
+                else
                   h[k] = v
                 end
               end
@@ -96,15 +96,15 @@ module Natto
         opt = []
         SUPPORTED_OPTS.values.each do |k|
           if options.has_key? k
-            key = k.to_s.gsub('_', '-')  
-            if [ :all_morphs, :partial, :marginal, :allocate_sentence ].include?(k) 
+            key = k.to_s.gsub('_', '-')
+            if [ :all_morphs, :partial, :marginal, :allocate_sentence ].include?(k)
               opt << "--#{key}" if options[k]==true
             else
               opt << "--#{key}=#{options[k]}"
             end
           end
         end
-        opt.empty? ? "" : opt.join(" ") 
+        opt.empty? ? "" : opt.join(" ")
       end
     end
   end
@@ -112,19 +112,19 @@ end
 
 # Copyright (c) 2016, Brooke M. Fujita.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 #  * Redistributions of source code must retain the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer.
-# 
+#
 #  * Redistributions in binary form must reproduce the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer in the documentation and/or other
 #    materials provided with the distribution.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE

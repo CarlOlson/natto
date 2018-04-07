@@ -2,7 +2,7 @@
 require 'natto/binding'
 require 'natto/option_parse'
 
-module Natto 
+module Natto
   require 'ffi'
 
   # `MeCabStruct` is a general base class for `FFI::Struct` objects in
@@ -12,7 +12,7 @@ module Natto
     # Provides accessor methods for the members of the MeCab struct.
     # @param attr_name [String] attribute name
     # @return member values for the MeCab struct
-    # @raise [NoMethodError] if `attr_name` is not a member of this MeCab struct 
+    # @raise [NoMethodError] if `attr_name` is not a member of this MeCab struct
     def method_missing(attr_name)
       member_sym = attr_name.id2name.to_sym
       self[member_sym]
@@ -23,9 +23,9 @@ module Natto
 
   # `DictionaryInfo` is a wrapper for the `struct mecab_dictionary_info_t`
   # structure holding the MeCab instance's related dictionary information.
-  # 
-  # Values for the MeCab dictionary attributes may be 
-  # obtained by using the following `Symbol`s as keys 
+  #
+  # Values for the MeCab dictionary attributes may be
+  # obtained by using the following `Symbol`s as keys
   # to the layout associative array of `FFI::Struct` members.
   #
   # - :filename - filename of dictionary; on Windows, filename is stored in UTF-8 encoding
@@ -36,7 +36,7 @@ module Natto
   # - :rsize - right attributes size
   # - :version - version of this dictionary
   # - :next - pointer to next dictionary in list
-  # 
+  #
   # ## Usage
   # MeCab dictionary attributes can be obtained by
   # using their corresponding accessor.
@@ -44,7 +44,7 @@ module Natto
   #     nm = Natto::MeCab.new
   #
   #     sysdic = nm.dicts.first
-  #    
+  #
   #     # display the real path to the mecab lib
   #     puts sysdic.filepath
   #     => /usr/local/lib/mecab/dic/ipadic/sys.dic
@@ -52,7 +52,7 @@ module Natto
   #     # what charset (encoding) is the system dictionary?
   #     puts sysdic.charset
   #     => utf8
-  # 
+  #
   #     # is this really the system dictionary?
   #     puts sysdic.is_sysdic?
   #     => true
@@ -77,11 +77,11 @@ module Natto
             :rsize,    :uint,
             :version,  :ushort,
             :next,     :pointer
-   
+
     if Object.respond_to?(:type) && Object.respond_to?(:class)
       alias_method :deprecated_type, :type
       # `Object#type` override defined when both `type` and
-      # `class` are Object methods. This is a hack to avoid the 
+      # `class` are Object methods. This is a hack to avoid the
       # `Object#type` deprecation warning thrown up in Ruby 1.8.7
       # and in JRuby.
       # @return [Fixnum] MeCab dictionary type
@@ -110,11 +110,11 @@ module Natto
     # type
     def to_s
       [ super.chop,
-        "@filepath=\"#{@filepath}\",", 
-         "charset=#{self.charset},", 
+        "@filepath=\"#{@filepath}\",",
+         "charset=#{self.charset},",
          "type=#{self.type}>" ].join(' ')
     end
-    
+
     # Overrides `Object#inspect`.
     # @return [String] encoded object id, dictionary filename, and charset
     # @see #to_s
@@ -143,9 +143,9 @@ module Natto
 
   # `MeCabNode` is a wrapper for the `struct mecab_node_t`
   # structure holding the parsed `node`.
-  # 
-  # Values for the MeCab node attributes may be 
-  # obtained by using the following `Symbol`s as keys 
+  #
+  # Values for the MeCab node attributes may be
+  # obtained by using the following `Symbol`s as keys
   # to the layout associative array of `FFI::Struct` members.
   #
   # - :prev - pointer to previous node
@@ -178,8 +178,8 @@ module Natto
   #
   #     nm = Natto::MeCab.new
   #
-  #     nm.parse('卓球なんて死ぬまでの暇つぶしだよ。') do |n| 
-  #       puts "#{n.surface}\t#{n.cost}" if n.is_nor? 
+  #     nm.parse('卓球なんて死ぬまでの暇つぶしだよ。') do |n|
+  #       puts "#{n.surface}\t#{n.cost}" if n.is_nor?
   #     end
   #     卓球     2874
   #     なんて    4398
@@ -192,9 +192,9 @@ module Natto
   #     。       10194
   #
   # While it is also possible to use the `Symbol` for the
-  # MeCab node member to index into the 
+  # MeCab node member to index into the
   # `FFI::Struct` layout associative array, please use the attribute
-  # accessors. In the case of `:surface` and `:feature`, MeCab 
+  # accessors. In the case of `:surface` and `:feature`, MeCab
   # returns the raw bytes, so `natto` will convert that into
   # a string using the default encoding.
   class MeCabNode < MeCabStruct
@@ -250,26 +250,26 @@ module Natto
         @feature = self[:feature].force_encoding(Encoding.default_external)
       end
     end
-     
+
     # Returns human-readable details for the MeCab node.
     # Overrides `Object#to_s`.
     #
     # - encoded object id
-    # - underlying FFI pointer to MeCab Node 
+    # - underlying FFI pointer to MeCab Node
     # - stat (node type: NOR, UNK, BOS/EOS, EON)
-    # - surface 
+    # - surface
     # - feature
-    # @return [String] encoded object id, underlying FFI pointer, stat, surface, and feature 
+    # @return [String] encoded object id, underlying FFI pointer, stat, surface, and feature
     def to_s
        [ super.chop,
          "@pointer=#{@pointer},",
-         "stat=#{self[:stat]},", 
+         "stat=#{self[:stat]},",
          "@surface=\"#{self.surface}\",",
          "@feature=\"#{self.feature}\">" ].join(' ')
     end
 
     # Overrides `Object#inspect`.
-    # @return [String] encoded object id, stat, surface, and feature 
+    # @return [String] encoded object id, stat, surface, and feature
     # @see #to_s
     def inspect
       self.to_s
@@ -286,19 +286,19 @@ module Natto
     def is_unk?
       self.stat == UNK_NODE
     end
-   
+
     # Returns `true` if this is a virtual MeCab node representing the beginning of the sentence.
     # @return [Boolean]
     def is_bos?
       self.stat == BOS_NODE
     end
-   
+
     # Returns `true` if this is a virtual MeCab node representing the end of the sentence.
     # @return [Boolean]
     def is_eos?
-      self.stat == EOS_NODE 
+      self.stat == EOS_NODE
     end
-   
+
     # Returns `true` if this is a virtual MeCab node representing the end of the node list.
     # @return [Boolean]
     def is_eon?
@@ -309,19 +309,19 @@ end
 
 # Copyright (c) 2016, Brooke M. Fujita.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 #  * Redistributions of source code must retain the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer.
-# 
+#
 #  * Redistributions in binary form must reproduce the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer in the documentation and/or other
 #    materials provided with the distribution.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE

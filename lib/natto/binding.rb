@@ -1,7 +1,7 @@
 # coding: utf-8
 module Natto
 
-  # Module `Binding` encapsulates methods and behavior 
+  # Module `Binding` encapsulates methods and behavior
   # which are made available via `FFI` bindings to MeCab.
   module Binding
     require 'ffi'
@@ -9,13 +9,13 @@ module Natto
     extend FFI::Library
 
     MECAB_PATH = 'MECAB_PATH'.freeze
-    
+
     # @private
     def self.included(base)
       base.extend(ClassMethods)
     end
 
-    # Returns the absolute pathname to the MeCab library based on 
+    # Returns the absolute pathname to the MeCab library based on
     # the runtime environment.
     # @return [String] absolute pathname to the MeCab library
     # @raise [LoadError] if the library cannot be located
@@ -124,11 +124,11 @@ module Natto
       def mecab_lattice_destroy(lptr)
         Natto::Binding.mecab_lattice_destroy(lptr)
       end
-    
+
       def mecab_lattice_clear(lptr)
         Natto::Binding.mecab_lattice_clear(lptr)
       end
-    
+
       def mecab_lattice_is_available(lptr)
         Natto::Binding.mecab_lattice_is_available(lptr)
       end
@@ -148,7 +148,7 @@ module Natto
       def mecab_lattice_get_size(lptr)
         Natto::Binding.mecab_lattice_get_size(lptr)
       end
-   
+
       def mecab_lattice_set_theta(lptr, t)
         Natto::Binding.mecab_lattice_set_theta(lptr, t)
       end
@@ -160,7 +160,7 @@ module Natto
       def mecab_lattice_get_request_type(lptr)
         Natto::Binding.mecab_lattice_get_request_type(lptr)
       end
-      
+
       def mecab_lattice_add_request_type(lptr, rt)
         Natto::Binding.mecab_lattice_add_request_type(lptr, rt)
       end
@@ -182,7 +182,7 @@ module Natto
       end
 
       def mecab_lattice_set_feature_constraint(lptr, bpos, epos, feat)
-        Natto::Binding.mecab_lattice_set_feature_constraint(lptr, 
+        Natto::Binding.mecab_lattice_set_feature_constraint(lptr,
                                                             bpos,
                                                             epos,
                                                             feat)
@@ -195,7 +195,7 @@ module Natto
       def mecab_lattice_next(lptr)
         Natto::Binding.mecab_lattice_next(lptr)
       end
- 
+
       def mecab_lattice_tostr(lptr)
         Natto::Binding.mecab_lattice_tostr(lptr)
       end
@@ -213,19 +213,19 @@ end
 
 # Copyright (c) 2016, Brooke M. Fujita.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 #  * Redistributions of source code must retain the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer.
-# 
+#
 #  * Redistributions in binary form must reproduce the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer in the documentation and/or other
 #    materials provided with the distribution.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE

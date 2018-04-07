@@ -7,7 +7,7 @@ CLEAN.include('pkg/*.gem')
 CLOBBER.include('pkg')
 
 desc "Run unit tests"
-task :test do 
+task :test do
   ruby %{ test/test_natto.rb }
 end
 

@@ -2,16 +2,16 @@
 require 'rbconfig'
 
 class TestMeCab < Minitest::Test
-    
+
   def setup
     @ver  = `mecab -v`.strip.split.last
     @host_os = RbConfig::CONFIG['host_os']
     @arch    = RbConfig::CONFIG['arch']
-    
+
     if @host_os =~ /mswin|mingw/i
       @test_cmd = 'type "test\\natto\\test_sjis"'
       @br       = '\\n'
-   
+
       lines = []
       File.open('test/natto/test_utf8_partial', 'rb:utf-8:cp932') do |f|
         lines = f.readlines
@@ -29,12 +29,12 @@ class TestMeCab < Minitest::Test
     else
       @test_cmd = 'cat "test/natto/test_utf8"'
       @br       = '\n'
-      
+
       lines = []
       File.open('test/natto/test_utf8_partial', 'rb:utf-8') do |f|
         lines = f.readlines
       end
-      
+
       lines2 = []
       File.open('test/natto/test_utf8_boundary', 'rb:utf-8') do |f|
         lines2 = f.readlines
@@ -88,7 +88,7 @@ class TestMeCab < Minitest::Test
     @test_fc_hash = nil
     @test_fc_res = nil
   end
- 
+
   def test_parse_mecab_options
     [ '-r /some/file',
       '-r/some/file',
@@ -105,7 +105,7 @@ class TestMeCab < Minitest::Test
       {dicdir: "/some/other/file"} ].each do |opts|
       assert_equal({dicdir: '/some/other/file'}, Natto::MeCab.parse_mecab_options(opts))
     end
-   
+
     [ '-u /yet/another/file',
       '-u/yet/another/file',
       '--userdic=/yet/another/file',
@@ -113,13 +113,13 @@ class TestMeCab < Minitest::Test
       {userdic: "/yet/another/file"} ].each do |opts|
       assert_equal({userdic: '/yet/another/file'}, Natto::MeCab.parse_mecab_options(opts))
     end
-   
+
     [ '-a',
       '--all-morphs',
       {all_morphs: true} ].each do |opts|
       assert_equal({all_morphs: true}, Natto::MeCab.parse_mecab_options(opts))
     end
-   
+
     [ '-O natto',
       '-Onatto',
       '--output-format-type=natto',
@@ -127,7 +127,7 @@ class TestMeCab < Minitest::Test
       {output_format_type: "natto"} ].each do |opts|
       assert_equal({output_format_type: 'natto'}, Natto::MeCab.parse_mecab_options(opts))
     end
-   
+
     [ '-N 42',
       '-N42',
       '--nbest=42',
@@ -148,14 +148,14 @@ class TestMeCab < Minitest::Test
     ].each do |opts|
       assert_equal({partial: true}, Natto::MeCab.parse_mecab_options(opts))
     end
-   
+
     [ '-m',
       '--marginal',
       {marginal: true}
     ].each do |opts|
       assert_equal({marginal: true}, Natto::MeCab.parse_mecab_options(opts))
     end
-   
+
     [ '-M 42',
       '-M42',
       '--max-grouping-size=42',
@@ -164,7 +164,7 @@ class TestMeCab < Minitest::Test
     ].each do |opts|
       assert_equal({max_grouping_size: 42}, Natto::MeCab.parse_mecab_options(opts))
     end
-   
+
     [ '-F %m\t%f[7]\n',
       '-F%m\t%f[7]\n',
       '--node-format=%m\t%f[7]\n',
@@ -180,7 +180,7 @@ class TestMeCab < Minitest::Test
       {unk_format: '%m\t%f[7]\n'} ].each do |opts|
       assert_equal({unk_format: '%m\t%f[7]\n'}, Natto::MeCab.parse_mecab_options(opts))
     end
-    
+
     [ '-B %m\t%f[7]\n',
       '-B%m\t%f[7]\n',
       '--bos-format=%m\t%f[7]\n',
@@ -188,7 +188,7 @@ class TestMeCab < Minitest::Test
       {bos_format: '%m\t%f[7]\n'} ].each do |opts|
       assert_equal({bos_format: '%m\t%f[7]\n'}, Natto::MeCab.parse_mecab_options(opts))
     end
-    
+
     [ '-E %m\t%f[7]\n',
       '-E%m\t%f[7]\n',
       '--eos-format=%m\t%f[7]\n',
@@ -196,7 +196,7 @@ class TestMeCab < Minitest::Test
       {eos_format: '%m\t%f[7]\n'} ].each do |opts|
       assert_equal({eos_format: '%m\t%f[7]\n'}, Natto::MeCab.parse_mecab_options(opts))
     end
-    
+
     [ '-S %m\t%f[7]\n',
       '-S%m\t%f[7]\n',
       '--eon-format=%m\t%f[7]\n',
@@ -204,7 +204,7 @@ class TestMeCab < Minitest::Test
       {eon_format: '%m\t%f[7]\n'} ].each do |opts|
       assert_equal({eon_format: '%m\t%f[7]\n'}, Natto::MeCab.parse_mecab_options(opts))
     end
-    
+
     [ '-x %m\t%f[7]\n',
       '-x%m\t%f[7]\n',
       '--unk-feature=%m\t%f[7]\n',
@@ -212,7 +212,7 @@ class TestMeCab < Minitest::Test
       {unk_feature: '%m\t%f[7]\n'} ].each do |opts|
       assert_equal({unk_feature: '%m\t%f[7]\n'}, Natto::MeCab.parse_mecab_options(opts))
     end
-    
+
     [ '-b 102400',
       '-b102400',
       '--input-buffer-size=102400',
@@ -220,13 +220,13 @@ class TestMeCab < Minitest::Test
       {input_buffer_size: 102400} ].each do |opts|
       assert_equal({input_buffer_size: 102400}, Natto::MeCab.parse_mecab_options(opts))
     end
-    
+
     [ '-C',
       '--allocate-sentence',
       {allocate_sentence: true} ].each do |opts|
       assert_equal({allocate_sentence: true}, Natto::MeCab.parse_mecab_options(opts))
     end
-    
+
     [ '-t 0.42',
       '-t0.42',
       '--theta=0.42',
@@ -234,7 +234,7 @@ class TestMeCab < Minitest::Test
       {theta: 0.42} ].each do |opts|
       assert_equal({theta: 0.42}, Natto::MeCab.parse_mecab_options(opts))
     end
-    
+
     [ '-c 42',
       '-c42',
       '--cost-factor=42',
@@ -270,7 +270,7 @@ class TestMeCab < Minitest::Test
     assert_raises Natto::MeCabError do
       Natto::MeCab.new(output_format_type: 'not_defined_anywhere')
     end
-    
+
     assert_raises Natto::MeCabError do
       Natto::MeCab.new(rcfile: '/rcfile/does/not/exist')
     end
@@ -294,25 +294,25 @@ class TestMeCab < Minitest::Test
     nm_p = Natto::MeCab.new('-p')
     [ :parse, :enum_parse ].each do |m|
       assert_raises ArgumentError do
-        nm.send(m, nil) 
+        nm.send(m, nil)
       end
 
       assert_raises ArgumentError do
         nm.send(m, 'foobar', boundary_constraints: [])
       end
-      
+
       assert_raises ArgumentError do
         nm.send(m, 'foobar', feature_constraints: [])
       end
-      
+
       assert_raises ArgumentError do
-        nm_p.send(m, 'foobar') 
+        nm_p.send(m, 'foobar')
       end
     end
   end
 
   # ----------- tostr ----------------------------
-  
+
   def test_parse_tostr_default
     expected = `#{@test_cmd} | mecab`.lines.to_a
     expected.delete_if {|e| e =~ /^(EOS|BOS|\t)/ }
@@ -353,7 +353,7 @@ class TestMeCab < Minitest::Test
   end
 
   def test_parse_tostr_output_formatting
-    opts = '%m\t%s' 
+    opts = '%m\t%s'
     expected = `#{@test_cmd} | mecab -F"#{opts}"`
 
     nm = Natto::MeCab.new("-F#{opts}")
@@ -371,7 +371,7 @@ class TestMeCab < Minitest::Test
     nm = Natto::MeCab.new(opts)
     actual = nm.parse(@test_str).lines.to_a
     actual.delete_if {|e| e =~ /^(EOS|\t)/ }
-    
+
     assert_equal(expected, actual)
   end
 
@@ -384,20 +384,20 @@ class TestMeCab < Minitest::Test
     nm = Natto::MeCab.new("-N2 -F#{opts}")
     actual = nm.parse(@test_str).lines.to_a
     actual.delete_if {|e| e =~ /^(EOS|\t)/ }
-    
+
     assert_equal(expected, actual)
   end
-  
+
   def test_parse_tostr_all_morphs
     opts = '-a'
     expected = `#{@test_cmd} | mecab #{opts}`.lines.to_a
     expected.delete_if {|e| e =~ /^(EOS|BOS)/ }
     expected.map!{|e| e.force_encoding(Encoding.default_external)} if @arch =~ /java/i && RUBY_VERSION.to_f >= 1.9
-  
+
     nm = Natto::MeCab.new(opts)
     actual   = nm.parse(@test_str).lines.to_a
     actual.delete_if {|e| e =~ /^(EOS|BOS|\t)/ }
-    
+
     assert_equal(expected, actual)
   end
 
@@ -428,7 +428,7 @@ class TestMeCab < Minitest::Test
   end
 
   def test_parse_tostr_partial
-    nm = Natto::MeCab.new('-p')    
+    nm = Natto::MeCab.new('-p')
 
     actual = nm.parse("#{@test_partial}\n").lines.to_a
     actual.each_with_index do |l,i|
@@ -461,7 +461,7 @@ class TestMeCab < Minitest::Test
   end
 
   # ----------- tonodes --------------------------
-  
+
   def test_parse_tonodes_default
     expected = `#{@test_cmd} | mecab`.lines.to_a
     expected.delete_if {|e| e =~ /^(EOS|BOS|\t)/ }
@@ -485,8 +485,8 @@ class TestMeCab < Minitest::Test
 
     nm = Natto::MeCab.new(opts)
     actual = []
-    nm.parse(@test_str) {|n| actual << n.feature if n.is_nor? }    
-  
+    nm.parse(@test_str) {|n| actual << n.feature if n.is_nor? }
+
     assert_equal(expected, actual.join)
   end
 
@@ -497,8 +497,8 @@ class TestMeCab < Minitest::Test
 
     nm = Natto::MeCab.new("-F#{opts}")
     actual = []
-    nm.parse(@test_str) {|n| actual << n if n.is_nor?}    
-   
+    nm.parse(@test_str) {|n| actual << n if n.is_nor?}
+
     expected.each_with_index do |f,i|
       sl, y = f.split("\t").map{|e| e.strip}
       asl, ay = actual[i].feature.split('...').first.split("\t").map{|e| e.strip}
@@ -515,8 +515,8 @@ class TestMeCab < Minitest::Test
 
     nm = Natto::MeCab.new(opts)
     actual = []
-    nm.parse(@test_str) {|n| actual << n if n.is_nor? }    
-  
+    nm.parse(@test_str) {|n| actual << n if n.is_nor? }
+
     expected.each_with_index do |f,i|
       a = actual[i]
       assert_equal(f.strip, "#{a.surface}\t#{a.feature}")
@@ -530,8 +530,8 @@ class TestMeCab < Minitest::Test
 
     nm = Natto::MeCab.new("-N2 -F#{opts}")
     actual = []
-    nm.parse(@test_str) {|n| actual << n if n.is_nor?}    
-   
+    nm.parse(@test_str) {|n| actual << n if n.is_nor?}
+
     expected.each_with_index do |f,i|
       sl, y = f.split("\t").map{|e| e.strip}
       asl, ay = actual[i].feature.split('...').first.split("\t").map{|e| e.strip}
@@ -545,7 +545,7 @@ class TestMeCab < Minitest::Test
     expected = `#{@test_cmd} | mecab #{opts}`.lines.to_a
     expected.delete_if {|e| e =~ /^(EOS|BOS)/ }
     expected.map!{|e| e.force_encoding(Encoding.default_external)} if @arch =~ /java/i && RUBY_VERSION.to_f >= 1.9
-  
+
     nm = Natto::MeCab.new(opts)
     actual = []
     nm.parse(@test_str) {|n| actual << n if !n.is_eos?}
@@ -596,7 +596,7 @@ class TestMeCab < Minitest::Test
     nm = Natto::MeCab.new('-p -F%m,%F,[0]')
 
     actual = []
-    nm.parse("#{@test_partial}\n") {|n| actual << n.feature if !(n.is_bos? || n.is_eos?)}    
+    nm.parse("#{@test_partial}\n") {|n| actual << n.feature if !(n.is_bos? || n.is_eos?)}
     actual.each_with_index do |l,i|
       assert_match(@test_partial_res2[i], l)
     end
@@ -606,14 +606,14 @@ class TestMeCab < Minitest::Test
     # simple string pattern
     nm = Natto::MeCab.new
     actual = []
-    nm.parse(@test_bc, boundary_constraints: Regexp.new(@test_bc_pattern)) {|n| actual << n if !(n.is_bos? || n.is_eos?)}    
+    nm.parse(@test_bc, boundary_constraints: Regexp.new(@test_bc_pattern)) {|n| actual << n if !(n.is_bos? || n.is_eos?)}
     actual.each_with_index do |l,i|
       assert_match(@test_bc_res[i], l.surface)
     end
 
     # complex Unicode character pattern
     actual = []
-    nm.parse(@test_bc2, boundary_constraints: Regexp.new(@test_bc_pattern2)) {|n| actual << n if !(n.is_bos? || n.is_eos?)}    
+    nm.parse(@test_bc2, boundary_constraints: Regexp.new(@test_bc_pattern2)) {|n| actual << n if !(n.is_bos? || n.is_eos?)}
     actual.each_with_index do |l,i|
       assert_match(@test_bc_res2[i], l.surface)
     end
@@ -630,7 +630,7 @@ class TestMeCab < Minitest::Test
   end
 
   # ----------- enum_parse -----------------------
-  
+
   def test_enum_parse_default
     expected = `#{@test_cmd} | mecab`.lines.to_a
     expected.delete_if {|e| e =~ /^(EOS|BOS|\t)/ }
@@ -647,7 +647,7 @@ class TestMeCab < Minitest::Test
     assert_equal(expected[5].split.first, enum.next.surface)
     assert_equal(expected[6].split.first, enum.next.surface)
   end
-  
+
   def test_enum_parse_with_format
     opts = '%f[1]'
     expected = `#{@test_cmd} | mecab -F"#{opts}#{@br}"`.lines.to_a
@@ -665,23 +665,23 @@ class TestMeCab < Minitest::Test
     assert_equal(expected[5].strip, enum.next.feature)
     assert_equal(expected[6].strip, enum.next.feature)
   end
-end 
+end
 
 # Copyright (c) 2016, Brooke M. Fujita.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 #  * Redistributions of source code must retain the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer.
-# 
+#
 #  * Redistributions in binary form must reproduce the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer in the documentation and/or other
 #    materials provided with the distribution.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE

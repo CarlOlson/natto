@@ -3,7 +3,7 @@ require 'natto/binding'
 require 'natto/option_parse'
 require 'natto/struct'
 
-module Natto 
+module Natto
   # `MeCab` is a class providing an interface to the MeCab library.
   # Options to the MeCab Model, Tagger and Lattice are passed in
   # as a string (MeCab command-line style) or as a Ruby-style hash at
@@ -50,44 +50,44 @@ module Natto
   #
   #     # pass a block to iterate over each MeCabNode instance
   #     #
-  #     nm.parse(text) do |n| 
+  #     nm.parse(text) do |n|
   #       puts "#{n.surface},#{n.feature}" if !n.is_eos?
-  #     end 
-  #     凡人,名詞,一般,*,*,*,*,凡人,ボンジン,ボンジン 
-  #     に,助詞,格助詞,一般,*,*,*,に,ニ,ニ 
-  #     しか,助詞,係助詞,*,*,*,*,しか,シカ,シカ 
-  #     見え,動詞,自立,*,*,一段,未然形,見える,ミエ,ミエ 
-  #     ねえ,助動詞,*,*,*,特殊・ナイ,音便基本形,ない,ネエ,ネー 
-  #     風景,名詞,一般,*,*,*,*,風景,フウケイ,フーケイ 
-  #     って,助詞,格助詞,連語,*,*,*,って,ッテ,ッテ 
-  #     の,名詞,非自立,一般,*,*,*,の,ノ,ノ 
-  #     が,助詞,格助詞,一般,*,*,*,が,ガ,ガ 
-  #     ある,動詞,自立,*,*,五段・ラ行,基本形,ある,アル,アル 
-  #     ん,名詞,非自立,一般,*,*,*,ん,ン,ン 
-  #     だ,助動詞,*,*,*,特殊・ダ,基本形,だ,ダ,ダ 
-  #     よ,助詞,終助詞,*,*,*,*,よ,ヨ,ヨ 
-  #     。,記号,句点,*,*,*,*,。,。,。 
+  #     end
+  #     凡人,名詞,一般,*,*,*,*,凡人,ボンジン,ボンジン
+  #     に,助詞,格助詞,一般,*,*,*,に,ニ,ニ
+  #     しか,助詞,係助詞,*,*,*,*,しか,シカ,シカ
+  #     見え,動詞,自立,*,*,一段,未然形,見える,ミエ,ミエ
+  #     ねえ,助動詞,*,*,*,特殊・ナイ,音便基本形,ない,ネエ,ネー
+  #     風景,名詞,一般,*,*,*,*,風景,フウケイ,フーケイ
+  #     って,助詞,格助詞,連語,*,*,*,って,ッテ,ッテ
+  #     の,名詞,非自立,一般,*,*,*,の,ノ,ノ
+  #     が,助詞,格助詞,一般,*,*,*,が,ガ,ガ
+  #     ある,動詞,自立,*,*,五段・ラ行,基本形,ある,アル,アル
+  #     ん,名詞,非自立,一般,*,*,*,ん,ン,ン
+  #     だ,助動詞,*,*,*,特殊・ダ,基本形,だ,ダ,ダ
+  #     よ,助詞,終助詞,*,*,*,*,よ,ヨ,ヨ
+  #     。,記号,句点,*,*,*,*,。,。,。
   #
   #
   #     # customize MeCabNode feature attribute with node-formatting
   #     # %m   ... morpheme surface
   #     # %F,  ... comma-delimited ChaSen feature values
-  #     #          reading (index 7) 
-  #     #          part-of-speech (index 0) 
+  #     #          reading (index 7)
+  #     #          part-of-speech (index 0)
   #     # %h   ... part-of-speech ID (IPADIC)
   #     #
   #     nm = Natto::MeCab.new('-F%m,%F,[7,0],%h')
-  #     
+  #
   #     # Enumerator effectively iterates the MeCabNodes
   #     #
   #     enum = nm.enum_parse(text)
   #     => #<Enumerator: #<Enumerator::Generator:0x29cc5f8>:each>
   #
   #     # output the feature attribute of each MeCabNode
-  #     # only output normal nodes, ignoring any end-of-sentence 
-  #     # or unknown nodes 
+  #     # only output normal nodes, ignoring any end-of-sentence
+  #     # or unknown nodes
   #     #
-  #     enum.map.with_index {|n,i| puts "#{i}: #{n.feature}" if n.is_nor?} 
+  #     enum.map.with_index {|n,i| puts "#{i}: #{n.feature}" if n.is_nor?}
   #     0: 凡人,ボンジン,名詞,38
   #     1: に,ニ,助詞,13
   #     2: しか,シカ,助詞,16
@@ -107,7 +107,7 @@ module Natto
   #     # Boundary constraint parsing with output formatting.
   #     # %m   ... morpheme surface
   #     # %f   ... tab-delimited ChaSen feature values
-  #     #          part-of-speech (index 0) 
+  #     #          part-of-speech (index 0)
   #     # %2   ... MeCab node status value (1 unknown)
   #     #
   #     nm = Natto::MeCab.new('-F%m,\s%f[0],\s%s')
@@ -137,7 +137,7 @@ module Natto
   class MeCab
     include Natto::Binding
     include Natto::OptionParse
- 
+
     MECAB_LATTICE_ONE_BEST = 1
     MECAB_LATTICE_NBEST = 2
     MECAB_LATTICE_PARTIAL = 4
@@ -166,7 +166,7 @@ module Natto
     attr_reader :version
 
     # Initializes the wrapped Tagger instance with the given `options`.
-    # 
+    #
     # Options supported are:
     #
     # - :rcfile --  resource file
@@ -175,7 +175,7 @@ module Natto
     # - :output_format_type --  output format type (wakati, chasen, yomi, etc.)
     # - :all_morphs --  output all morphs (default false)
     # - :nbest --  output N best results (integer, default 1)
-    # - :partial --  partial parsing mode 
+    # - :partial --  partial parsing mode
     # - :marginal --  output marginal probability
     # - :max_grouping_size --  maximum grouping size for unknown words (default 24)
     # - :node_format --  user-defined node format
@@ -184,12 +184,12 @@ module Natto
     # - :eos_format --  user-defined end-of-sentence format
     # - :eon_format --  user-defined end-of-NBest format
     # - :unk_feature --  feature for unknown word
-    # - :input_buffer_size -- set input buffer size (default 8192) 
-    # - :allocate_sentence -- allocate new memory for input sentence 
+    # - :input_buffer_size -- set input buffer size (default 8192)
+    # - :allocate_sentence -- allocate new memory for input sentence
     # - :theta --  temperature parameter theta (float, default 0.75)
     # - :cost_factor --  cost factor (integer, default 700)
-    # 
-    # <p>MeCab command-line arguments (-F) or long (--node-format) may be used in 
+    #
+    # <p>MeCab command-line arguments (-F) or long (--node-format) may be used in
     # addition to Ruby-style hashs</p>
     # <i>Use single-quotes to preserve format options that contain escape chars.</i><br/>
     # e.g.<br/>
@@ -206,7 +206,7 @@ module Natto
     #                    charset=utf8,                                       \
     #                    type=0>]                                            \
     #          @version=0.996>
-    # 
+    #
     #     puts nm.parse('才能とは求める人間に与えられるものではない。')
     #     才能    サイノウ
     #     と      ト
@@ -225,7 +225,7 @@ module Natto
     # @param options [Hash, String] the MeCab options
     # @raise [MeCabError] if MeCab cannot be initialized with the given `options`
     def initialize(options={})
-      @options = self.class.parse_mecab_options(options) 
+      @options = self.class.parse_mecab_options(options)
       opt_str  = self.class.build_options_str(@options)
 
       @model   = self.class.mecab_model_new2(opt_str)
@@ -264,12 +264,12 @@ module Natto
                                             MECAB_LATTICE_ALL_MORPHS)
       end
       if @options[:allocate_sentence]
-        self.mecab_lattice_add_request_type(@lattice, 
+        self.mecab_lattice_add_request_type(@lattice,
                                             MECAB_LATTICE_ALLOCATE_SENTENCE)
       end
 
       if @options[:theta]
-        self.mecab_lattice_set_theta(@lattice, @options[:theta]) 
+        self.mecab_lattice_set_theta(@lattice, @options[:theta])
       end
 
       @parse_tostr = ->(text, constraints) {
@@ -327,7 +327,7 @@ module Natto
           end
 
           self.mecab_parse_lattice(@tagger, @lattice)
-          
+
           if n > 1
             retval = self.mecab_lattice_nbest_tostr(@lattice, n)
           else
@@ -335,10 +335,10 @@ module Natto
           end
           retval.force_encoding(Encoding.default_external)
         rescue
-          raise(MeCabError.new(self.mecab_lattice_strerror(@lattice))) 
+          raise(MeCabError.new(self.mecab_lattice_strerror(@lattice)))
         end
       }
-        
+
       @parse_tonodes = ->(text, constraints) {
         self.mecab_lattice_add_request_type(@lattice, MECAB_LATTICE_NBEST)
         Enumerator.new do |y|
@@ -399,7 +399,7 @@ module Natto
               check = self.mecab_lattice_next(@lattice)
               if check
                 nptr = self.mecab_lattice_get_bos_node(@lattice)
-          
+
                 while nptr && nptr.address!=0x0
                   mn = Natto::MeCabNode.new(nptr)
                   if !mn.is_bos?
@@ -416,7 +416,7 @@ module Natto
             end
             nil
           rescue
-            raise(MeCabError.new(self.mecab_lattice_strerror(@lattice))) 
+            raise(MeCabError.new(self.mecab_lattice_strerror(@lattice)))
           end
         end
       }
@@ -433,8 +433,8 @@ module Natto
                                                                      @tagger,
                                                                      @lattice))
     end
-    
-    # Parses the given `text`, returning the MeCab output as a single string. 
+
+    # Parses the given `text`, returning the MeCab output as a single string.
     # If a block is passed to this method, then node parsing will be used
     # and each node yielded to the given block.
     #
@@ -446,10 +446,10 @@ module Natto
     # The boundary constraint parsed output will be returned as a single
     # string, unless a block is passed to this method for node parsing.
     #
-    # Feature constraint parsing is available by passing in the 
+    # Feature constraint parsing is available by passing in the
     # `feature_constraints` key in the `options` hash. Feature constraints
     # parsing provides instructions to MeCab to use the feature indicated
-    # for any morpheme that is an exact match for the given key. 
+    # for any morpheme that is an exact match for the given key.
     # `feature_constraints` is a hash mapping a specific morpheme (String)
     # to a corresponding feature value (String).
     # @param text [String] the Japanese text to parse
@@ -481,7 +481,7 @@ module Natto
 
     # Parses the given string `text`, returning an
     # [Enumerator](http://www.ruby-doc.org/core-2.2.1/Enumerator.html) that may be
-    # used to iterate over the resulting {MeCabNode} objects. This is more 
+    # used to iterate over the resulting {MeCabNode} objects. This is more
     # efficient than parsing to a simple string, since each node's
     # information will not be materialized all at once as it is with
     # string output.
@@ -494,13 +494,13 @@ module Natto
     # `boundary_constraints` key in the `options` hash. Boundary constraints
     # parsing provides hints to MeCab on where the morpheme boundaries in the
     # given `text` are located. `boundary_constraints` value may be either a
-    # `Regexp` or `String`; please see 
+    # `Regexp` or `String`; please see
     # [String#scan](http://ruby-doc.org/core-2.2.1/String.html#method-i-scan)
     #
-    # Feature constraint parsing is available by passing in the 
+    # Feature constraint parsing is available by passing in the
     # `feature_constraints` key in the `options` hash. Feature constraints
     # parsing provides instructions to MeCab to use the feature indicated
-    # for any morpheme that is an exact match for the given key. 
+    # for any morpheme that is an exact match for the given key.
     # `feature_constraints` is a hash mapping a specific morpheme (String)
     # to a corresponding feature value (String).
     # @param text [String] the Japanese text to parse
@@ -543,12 +543,12 @@ module Natto
     #   list of dictionaries and MeCab version
     def to_s
       [ super.chop,
-        "@model=#{@model},", 
-        "@tagger=#{@tagger},", 
-        "@lattice=#{@lattice},", 
+        "@model=#{@model},",
+        "@tagger=#{@tagger},",
+        "@lattice=#{@lattice},",
         "@libpath=\"#{@libpath}\",",
-        "@options=#{@options.inspect},", 
-        "@dicts=#{@dicts.to_s},", 
+        "@options=#{@options.inspect},",
+        "@dicts=#{@dicts.to_s},",
         "@version=#{@version.to_s}>" ].join(' ')
     end
 
@@ -580,7 +580,7 @@ module Natto
     # MeCab eats all leading and training whitespace char
     def tokenize_by_pattern(text, pattern)
       matches = text.scan(pattern)
-      
+
       acc = []
       tmp = text
       matches.each_with_index do |m,i|
@@ -624,19 +624,19 @@ end
 
 # Copyright (c) 2016, Brooke M. Fujita.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 #  * Redistributions of source code must retain the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer.
-# 
+#
 #  * Redistributions in binary form must reproduce the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer in the documentation and/or other
 #    materials provided with the distribution.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE

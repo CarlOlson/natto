@@ -1,9 +1,9 @@
-# natto [![Gem Version](https://badge.fury.io/rb/natto.svg)](https://rubygems.org/gems/natto) [![Build Status](https://travis-ci.org/buruzaemon/natto.svg?branch=master)](https://travis-ci.org/buruzaemon/natto) [![Gem Downloads](https://img.shields.io/gem/dt/natto.svg)](https://rubygems.org/gems/natto) [![Gem License](https://img.shields.io/badge/license-BSD-blue.svg)]() 
+# natto [![Gem Version](https://badge.fury.io/rb/natto.svg)](https://rubygems.org/gems/natto) [![Build Status](https://travis-ci.org/buruzaemon/natto.svg?branch=master)](https://travis-ci.org/buruzaemon/natto) [![Gem Downloads](https://img.shields.io/gem/dt/natto.svg)](https://rubygems.org/gems/natto) [![Gem License](https://img.shields.io/badge/license-BSD-blue.svg)]()
 A Tasty Ruby Binding with MeCab
 
 ## What is natto?
 A gem leveraging FFI (foreign function interface), natto combines the
-[Ruby programming language](http://www.ruby-lang.org/) with 
+[Ruby programming language](http://www.ruby-lang.org/) with
 [MeCab](http://taku910.github.io/mecab/), the part-of-speech
 and morphological analyzer for the Japanese language.
 
@@ -31,14 +31,14 @@ Install natto with the following gem command:
 
 This will automatically install the [ffi](http://rubygems.org/gems/ffi) rubygem, which natto uses to bind to the MeCab library.
 
-## Installation on Windows 
+## Installation on Windows
 However, if you are using a CRuby on Windows, then you will first need to install the [RubyInstaller Development Kit (DevKit)](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit), a MSYS/MinGW based toolkit that enables your Windows Ruby installation to build many of the native C/C++ extensions available, including ffi.
 
 1. Download the latest release for RubyInstaller for Windows platforms and the corresponding DevKit from the [RubyInstaller for Windows downloads page](http://rubyinstaller.org/downloads/).
 2. After installing RubyInstaller for Windows, double-click on the DevKit-tdm installer `.exe`, and expand the contents to an appropriate location, for example `C:\devkit`.
 3. Open a command window under `C:\devkit`, and execute: `ruby dk.rb init`. This will locate all known ruby installations, and add them to `C:\devkit\config.yml`.
-4. Next, execute: `ruby dk.rb install`, which will add the DevKit to all of the installed rubies listed in your `C:\devkit\config.yml`. Now you should be able to install and build the ffi rubygem correctly on your Windows-installed ruby. 
-5. Install natto with: 
+4. Next, execute: `ruby dk.rb install`, which will add the DevKit to all of the installed rubies listed in your `C:\devkit\config.yml`. Now you should be able to install and build the ffi rubygem correctly on your Windows-installed ruby.
+5. Install natto with:
 
         gem install natto
 
@@ -48,7 +48,7 @@ However, if you are using a CRuby on Windows, then you will first need to instal
 ## Automatic Configuration
 No explicit configuration should be necessary, as natto will try to locate the MeCab library based upon its runtime environment.
 
-- On OS X and \*nix, it will query `mecab-config --libs` 
+- On OS X and \*nix, it will query `mecab-config --libs`
 - On Windows, it will query the Windows Registry to determine where `libmecab.dll` is installed
 
 ## Explicit configuration via `MECAB_PATH` and `MECAB_CHARSET`
@@ -56,7 +56,7 @@ If natto cannot find the MeCab library, `LoadError` will be raised. Please set t
 
 - e.g., for OS X
 
-        export MECAB_PATH=/usr/local/Cellar/mecab/0.996/lib/libmecab.dylib 
+        export MECAB_PATH=/usr/local/Cellar/mecab/0.996/lib/libmecab.dylib
 
 - e.g., for bash on UNIX/Linux
 
@@ -90,24 +90,24 @@ Instantiate a reference to the MeCab library, and display some details:
                  charset=utf8,                                        \
                  type=0>]                                             \
          @version=0.996>
-    
+
     puts nm.version
-    => 0.996 
+    => 0.996
 
 ----
 
 Display details about the system dictionary used by MeCab:
 
     puts nm.libpath
-    => /usr/local/lib/libmecab.so 
+    => /usr/local/lib/libmecab.so
 
     sysdic = nm.dicts.first
     puts sysdic.filepath
     => /usr/local/lib/mecab/dic/ipadic/sys.dic
 
     puts sysdic.charset
-    => utf8 
- 
+    => utf8
+
 ----
 
 Parse Japanese text and send the MeCab result as a single string to stdout:
@@ -132,7 +132,7 @@ Parse Japanese text and send the MeCab result as a single string to stdout:
 ----
 
 If a block is passed to `parse`, you can iterate over the list of resulting `MeCabNode`
-instances to access more detailed information about each morpheme. 
+instances to access more detailed information about each morpheme.
 
 In this example, the following attributes and methods for `MeCabNode` are used:
 
@@ -186,26 +186,26 @@ Note that we can move the `Enumerator` both forwards and backwards, rewind it
 back to the beginning, and then iterate over it.
 
     nm = Natto::MeCab.new('-F%m\t%f[0]\t%f[7]')
-    
+
     enum = nm.enum_parse('この星の一等賞になりたいの卓球で俺は、そんだけ！')
     => #<Enumerator: #<Enumerator::Generator:0x00000002ff3898>:each>
-    
+
     enum.next
     => #<Natto::MeCabNode:0x000000032eed68 \
          @pointer=#<FFI::Pointer address=0x000000005ffb48>, \
          stat=0, \
          @surface="この", \
          @feature="この   連体詞  コノ">
-    
+
     enum.peek
     => #<Natto::MeCabNode:0x00000002fe2110a \
          @pointer=#<FFI::Pointer address=0x000000005ffdb8>, \
          stat=0, \
          @surface="星", \
-         @feature="星       名詞    ホシ"> 
-        
+         @feature="星       名詞    ホシ">
+
     enum.rewind
-    
+
     # again, ignore any end-of-sentence nodes
     enum.each { |n| puts n.feature if !n.is_eos? }
     この    連体詞  コノ
@@ -290,7 +290,7 @@ to a corresponding feature (String).
       puts n.feature if !(n.is_bos? || n.is_eos?)
     end
 
-    # ヒーロー見参 will be treated as a single morpheme mapping to その他 
+    # ヒーロー見参 will be treated as a single morpheme mapping to その他
     心, 名詞, 0
     の, 助詞, 0
     中, 名詞, 0
@@ -307,7 +307,7 @@ to a corresponding feature (String).
     ！, 記号, 0
 
 
-## Learn more 
+## Learn more
 - You can read more about natto on the [project Wiki](https://github.com/buruzaemon/natto/wiki).
 
 ## Contributing to natto

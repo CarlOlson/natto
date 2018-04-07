@@ -10,13 +10,13 @@ class TestOptionParse < Minitest::Test
   def teardown
     @klass = nil
   end
-  
+
   def test_functions_included
     [ :parse_mecab_options, :build_options_str ].each do |f|
       assert(@klass.respond_to? f)
     end
   end
-  
+
   def test_parse_mecab_options
     [ '-r /some/file',
       '-r/some/file',
@@ -33,7 +33,7 @@ class TestOptionParse < Minitest::Test
       {dicdir: "/some/other/file"} ].each do |opts|
       assert_equal({dicdir: '/some/other/file'}, @klass.parse_mecab_options(opts))
     end
-   
+
     [ '-u /yet/another/file',
       '-u/yet/another/file',
       '--userdic=/yet/another/file',
@@ -41,13 +41,13 @@ class TestOptionParse < Minitest::Test
       {userdic: "/yet/another/file"} ].each do |opts|
       assert_equal({userdic: '/yet/another/file'}, @klass.parse_mecab_options(opts))
     end
-   
+
     [ '-a',
       '--all-morphs',
       {all_morphs: true} ].each do |opts|
       assert_equal({all_morphs: true}, @klass.parse_mecab_options(opts))
     end
-   
+
     [ '-O natto',
       '-Onatto',
       '--output-format-type=natto',
@@ -55,7 +55,7 @@ class TestOptionParse < Minitest::Test
       {output_format_type: "natto"} ].each do |opts|
       assert_equal({output_format_type: 'natto'}, @klass.parse_mecab_options(opts))
     end
-   
+
     [ '-N 42',
       '-N42',
       '--nbest=42',
@@ -69,19 +69,19 @@ class TestOptionParse < Minitest::Test
         @klass.parse_mecab_options(bad)
       end
     end
-   
+
     [ '-p',
       '--partial',
       {partial: true} ].each do |opts|
       assert_equal({partial: true}, @klass.parse_mecab_options(opts))
     end
-   
+
     [ '-m',
       '--marginal',
       {marginal: true} ].each do |opts|
       assert_equal({marginal: true}, @klass.parse_mecab_options(opts))
     end
-   
+
     [ '-M 42',
       '-M42',
       '--max-grouping-size=42',
@@ -90,7 +90,7 @@ class TestOptionParse < Minitest::Test
     ].each do |opts|
       assert_equal({max_grouping_size: 42}, @klass.parse_mecab_options(opts))
     end
-    
+
     [ '-F %m\t%f[7]\n',
       '-F%m\t%f[7]\n',
       '--node-format=%m\t%f[7]\n',
@@ -106,7 +106,7 @@ class TestOptionParse < Minitest::Test
       {unk_format: '%m\t%f[7]\n'} ].each do |opts|
       assert_equal({unk_format: '%m\t%f[7]\n'}, @klass.parse_mecab_options(opts))
     end
-    
+
     [ '-B %m\t%f[7]\n',
       '-B%m\t%f[7]\n',
       '--bos-format=%m\t%f[7]\n',
@@ -114,7 +114,7 @@ class TestOptionParse < Minitest::Test
       {bos_format: '%m\t%f[7]\n'} ].each do |opts|
       assert_equal({bos_format: '%m\t%f[7]\n'}, @klass.parse_mecab_options(opts))
     end
-    
+
     [ '-E %m\t%f[7]\n',
       '-E%m\t%f[7]\n',
       '--eos-format=%m\t%f[7]\n',
@@ -122,7 +122,7 @@ class TestOptionParse < Minitest::Test
       {eos_format: '%m\t%f[7]\n'} ].each do |opts|
       assert_equal({eos_format: '%m\t%f[7]\n'}, @klass.parse_mecab_options(opts))
     end
-    
+
     [ '-S %m\t%f[7]\n',
       '-S%m\t%f[7]\n',
       '--eon-format=%m\t%f[7]\n',
@@ -130,7 +130,7 @@ class TestOptionParse < Minitest::Test
       {eon_format: '%m\t%f[7]\n'} ].each do |opts|
       assert_equal({eon_format: '%m\t%f[7]\n'}, @klass.parse_mecab_options(opts))
     end
-    
+
     [ '-x %m\t%f[7]\n',
       '-x%m\t%f[7]\n',
       '--unk-feature=%m\t%f[7]\n',
@@ -138,7 +138,7 @@ class TestOptionParse < Minitest::Test
       {unk_feature: '%m\t%f[7]\n'} ].each do |opts|
       assert_equal({unk_feature: '%m\t%f[7]\n'}, @klass.parse_mecab_options(opts))
     end
-    
+
     [ '-b 102400',
       '-b102400',
       '--input-buffer-size=102400',
@@ -146,13 +146,13 @@ class TestOptionParse < Minitest::Test
       {input_buffer_size: 102400} ].each do |opts|
       assert_equal({input_buffer_size: 102400}, @klass.parse_mecab_options(opts))
     end
-    
+
     [ '-C',
       '--allocate-sentence',
       {allocate_sentence: true} ].each do |opts|
       assert_equal({allocate_sentence: true}, @klass.parse_mecab_options(opts))
     end
-    
+
     [ '-t 0.42',
       '-t0.42',
       '--theta=0.42',
@@ -160,7 +160,7 @@ class TestOptionParse < Minitest::Test
       {theta: 0.42} ].each do |opts|
       assert_equal({theta: 0.42}, @klass.parse_mecab_options(opts))
     end
-    
+
     [ '-c 42',
       '-c42',
       '--cost-factor=42',
@@ -197,19 +197,19 @@ end
 
 # Copyright (c) 2016, Brooke M. Fujita.
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 #  * Redistributions of source code must retain the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer.
-# 
+#
 #  * Redistributions in binary form must reproduce the above
 #    copyright notice, this list of conditions and the
 #    following disclaimer in the documentation and/or other
 #    materials provided with the distribution.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
