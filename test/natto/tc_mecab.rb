@@ -676,6 +676,13 @@ class TestMeCab < Minitest::Test
     end
   end
 
+  def test_lemma
+    nm = Natto::MeCab.new
+    enum = nm.enum_parse('たべます')
+
+    assert_equal('たべる', enum.next.lemma)
+  end
+
   def test_reading
     nm = Natto::MeCab.new
     enum = nm.enum_parse('ペンではありません。')

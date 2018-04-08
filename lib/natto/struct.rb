@@ -309,6 +309,10 @@ module Natto
       TRANSLATIONS[features[0]]
     end
 
+    def lemma
+      features[6]
+    end
+
     def reading
       features[7]
     end
