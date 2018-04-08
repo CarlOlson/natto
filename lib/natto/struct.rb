@@ -304,7 +304,19 @@ module Natto
     def is_eon?
       self.stat == EON_NODE
     end
+
+    def part_of_speech
+      TRANSLATIONS[feature.split(/,/)[0]]
+    end
   end
+
+  TRANSLATIONS = {
+    '名詞' => 'noun',
+    '助詞' => 'particle',
+    '動詞' => 'verb',
+    '助動詞' => 'auxverb',
+    '記号' => 'symbol'
+  }
 end
 
 # Copyright (c) 2016, Brooke M. Fujita.

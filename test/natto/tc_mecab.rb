@@ -665,6 +665,20 @@ class TestMeCab < Minitest::Test
     assert_equal(expected[5].strip, enum.next.feature)
     assert_equal(expected[6].strip, enum.next.feature)
   end
+
+  # ----------- accessors -----------------------
+  def test_part_of_speech
+    nm = Natto::MeCab.new
+    enum = nm.enum_parse('ペンではありません。')
+
+    assert_equal(enum.next.part_of_speech, 'noun')
+    assert_equal(enum.next.part_of_speech, 'particle')
+    assert_equal(enum.next.part_of_speech, 'particle')
+    assert_equal(enum.next.part_of_speech, 'verb')
+    assert_equal(enum.next.part_of_speech, 'auxverb')
+    assert_equal(enum.next.part_of_speech, 'auxverb')
+    assert_equal(enum.next.part_of_speech, 'symbol')
+  end
 end
 
 # Copyright (c) 2016, Brooke M. Fujita.
