@@ -306,11 +306,21 @@ module Natto
     end
 
     def part_of_speech
-      TRANSLATIONS[feature.split(/,/)[0]]
+      TRANSLATIONS[features[0]]
+    end
+
+    def reading
+      features[7]
     end
 
     def pronunciation
-      feature.split(/,/)[8]
+      features[8]
+    end
+
+    private
+
+    def features
+      feature.split(/,/)
     end
   end
 
