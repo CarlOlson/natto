@@ -308,6 +308,10 @@ module Natto
     def part_of_speech
       TRANSLATIONS[feature.split(/,/)[0]]
     end
+
+    def pronunciation
+      feature.split(/,/)[8]
+    end
   end
 
   TRANSLATIONS = {

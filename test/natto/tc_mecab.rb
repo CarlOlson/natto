@@ -679,6 +679,19 @@ class TestMeCab < Minitest::Test
     assert_equal(enum.next.part_of_speech, 'auxverb')
     assert_equal(enum.next.part_of_speech, 'symbol')
   end
+
+  def test_pronunciation
+    nm = Natto::MeCab.new
+    enum = nm.enum_parse('ペンではありません。')
+
+    assert_equal(enum.next.pronunciation, 'ペン')
+    assert_equal(enum.next.pronunciation, 'デ')
+    assert_equal(enum.next.pronunciation, 'ワ')
+    assert_equal(enum.next.pronunciation, 'アリ')
+    assert_equal(enum.next.pronunciation, 'マセ')
+    assert_equal(enum.next.pronunciation, 'ン')
+    assert_equal(enum.next.pronunciation, '。')
+  end
 end
 
 # Copyright (c) 2016, Brooke M. Fujita.
