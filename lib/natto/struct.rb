@@ -336,7 +336,12 @@ module Natto
     '助動詞' => 'auxverb',
     '記号' => 'symbol',
     '形容詞' => 'adjective',
-    '感動詞' => 'emotive verb'
+    '感動詞' => 'emotive verb',
+    '接頭詞' => 'prefix',
+    '副詞' => 'adverb',
+    '連体詞' => 'adnominal',
+    '接続詞' => 'conjunction',
+    'フィラー' => 'filler'
   }
 end
 
