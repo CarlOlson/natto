@@ -671,7 +671,7 @@ class TestMeCab < Minitest::Test
     nm = Natto::MeCab.new
     enum = nm.enum_parse('ペンではありません。')
 
-    %w[noun particle particle verb auxverb auxverb symbol].each do |expected|
+    %w[noun particle particle verb auxverb auxverb symbol BOS/EOS].each do |expected|
       assert_equal(expected, enum.next.part_of_speech)
     end
   end

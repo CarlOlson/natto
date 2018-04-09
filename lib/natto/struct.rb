@@ -306,7 +306,8 @@ module Natto
     end
 
     def part_of_speech
-      TRANSLATIONS[features[0]]
+      pos = features[0]
+      TRANSLATIONS[pos] || pos
     end
 
     def lemma
@@ -333,7 +334,9 @@ module Natto
     '助詞' => 'particle',
     '動詞' => 'verb',
     '助動詞' => 'auxverb',
-    '記号' => 'symbol'
+    '記号' => 'symbol',
+    '形容詞' => 'adjective',
+    '感動詞' => 'emotive verb'
   }
 end
 
